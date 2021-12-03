@@ -1,0 +1,39 @@
+apiVersion: v1alpha
+kind: xcuitest
+sauce:
+  region: eu-central-1
+  concurrency: 1
+  metadata:
+    tags:
+      - e2e
+      - release team
+      - other tag
+    build: Release $CI_COMMIT_SHORT_SHA
+
+xcuitest:
+  app: ./apps/App.ipa
+  testApp: ./apps/Runner.ipa
+
+suites:
+  - name: "saucy xcuitest"
+    # testOptions:
+    #   class: ["My_Demo_AppUITests.My_Demo_AppUITests/testNavigateToCart"]
+    devices:
+      # If set, only device by ID will be queried.
+      - id: iPhone_XR_free
+      # - name: "iPhone.*"
+      #   platformVersion: "14.6"
+      #   options:
+      #     # If set, only devices with a SIM card will be queried.
+      #     carrierConnectivity: false
+      #     # Possible values [ANY,PHONE,TABLET]
+      #     deviceType: PHONE
+      #     # If set, only private devices will be queried.
+      #     private: false
+
+artifacts:
+  download:
+    when: always
+    match:
+      - "*.junit.xml"
+    directory: ./artifacts/
